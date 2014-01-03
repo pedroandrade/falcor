@@ -5,8 +5,8 @@ module Falcor
     class << self
       attr_accessor :factories
 
-      def define(name, options={}, &block)
-        factories[name] = self.new({ :name => name, :block => block }.merge(options))
+      def define(name, options = {}, &block)
+        factories[name] = new({ name: name, block: block }.merge(options))
       end
 
       def create(name, overrides, block)
