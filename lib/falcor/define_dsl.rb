@@ -68,7 +68,7 @@ module Falcor
         self.send(:define_method, attr, default_blk)
 
         default_assignment_blk = Proc.new do |val|
-          raise "Invalid association list" unless val.class == Array
+          raise 'Invalid association list' unless val.class == Array
 
           factory_name = ActiveSupport::Inflector.singularize(attr).to_sym
 
