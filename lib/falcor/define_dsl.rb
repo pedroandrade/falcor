@@ -10,10 +10,10 @@ module Falcor
       def allow(attr)
         self.fields = (self.fields || []).push(attr)
 
-        default_blk = Proc.new { self.instance_variable_get("@#{attr}".to_sym) }
+        default_blk = proc { self.instance_variable_get("@#{attr}".to_sym) }
         self.send(:define_method, attr, default_blk)
 
-        default_assignment_blk = Proc.new do |val|
+        default_assignment_blk = proc do |val|
           self.instance_variable_set("@#{attr}".to_sym, val)
         end
 
@@ -23,10 +23,10 @@ module Falcor
       def field(attr, default)
         self.fields = (self.fields || []).push(attr)
 
-        default_blk = Proc.new { self.instance_variable_get("@#{attr}".to_sym) || default }
+        default_blk = proc { self.instance_variable_get("@#{attr}".to_sym) || default }
         self.send(:define_method, attr, default_blk)
 
-        default_assignment_blk = Proc.new do |val|
+        default_assignment_blk = proc do |val|
           self.instance_variable_set("@#{attr}".to_sym, val)
         end
 
@@ -40,10 +40,10 @@ module Falcor
           model = Factory attr
         end
 
-        default_blk = Proc.new { self.instance_variable_get("@#{attr}".to_sym) || model }
+        default_blk = proc { self.instance_variable_get("@#{attr}".to_sym) || model }
         self.send(:define_method, attr, default_blk)
 
-        default_assignment_blk = Proc.new do |val|
+        default_assignment_blk = proc do |val|
           if val.class == Hash
             association = self.send(attr)
             val.each do |k,v|
@@ -64,10 +64,10 @@ module Falcor
           models << model
         end
 
-        default_blk = Proc.new { self.instance_variable_get("@#{attr}".to_sym) || models }
+        default_blk = proc { self.instance_variable_get("@#{attr}".to_sym) || models }
         self.send(:define_method, attr, default_blk)
 
-        default_assignment_blk = Proc.new do |val|
+        default_assignment_blk = proc do |val|
           raise 'Invalid association list' unless val.class == Array
 
           factory_name = ActiveSupport::Inflector.singularize(attr).to_sym
