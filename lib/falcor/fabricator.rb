@@ -10,7 +10,7 @@ module Falcor
       end
 
       def create(name, overrides, block)
-        raise "No factory defined: [#{name}]" unless factories.has_key?(name)
+        fail "No factory defined: [#{name}]" unless factories.key?(name)
 
         factories[name].create(overrides)
       end
@@ -25,7 +25,7 @@ module Falcor
       klass.new(overrides)
     end
 
-  private
+    private
 
     def initialize(options)
       @definition = options
